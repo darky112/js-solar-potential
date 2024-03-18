@@ -146,7 +146,7 @@ export async function findClosestBuilding(
   const args = {
     'location.latitude': location.lat().toFixed(5),
     'location.longitude': location.lng().toFixed(5),
-    'requiredQuality': 'MEDIUM',
+	'requiredQuality': 'MEDIUM'
   };
   console.log('GET buildingInsights\n', args);
   const params = new URLSearchParams({ ...args, key: apiKey });
@@ -182,18 +182,22 @@ export async function getDataLayerUrls(
   const args = {
     'location.latitude': location.latitude.toFixed(5),
     'location.longitude': location.longitude.toFixed(5),
+	'requiredQuality': 'MEDIUM',
     radius_meters: radiusMeters.toString(),
   };
   console.log('GET dataLayers\n', args);
+ // console.log('paramsXXXXXX\n', params);
   const params = new URLSearchParams({ ...args, key: apiKey });
   return fetch(`https://solar.googleapis.com/v1/dataLayers:get?${params}`).then(
     async (response) => {
       const content = await response.json();
       if (response.status != 200) {
         console.error('getDataLayerUrls\n', content);
+		
         throw content;
       }
       console.log('dataLayersResponse', content);
+	  console.error('params\n', params);
       return content;
     },
   );
